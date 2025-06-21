@@ -126,22 +126,26 @@ function play(element,id)
 }
 function setupScrollBoxes() {
   document.querySelectorAll('.scrollingWindow').forEach(el => {
-    let isDragging = false;
-    let startX;
-    let scrollLeft;
+    // Prevent duplicate listeners
+    if (el.dataset.listenersAdded) return;
+    el.dataset.listenersAdded = "true";
 
+    let isDragging = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    // ----- Mouse Events -----
     el.addEventListener('mousedown', (e) => {
       isDragging = true;
       startX = e.pageX - el.offsetLeft;
       scrollLeft = el.scrollLeft;
-      el.classList.add('active'); // OPTIONAL: for style/feedback
-    });
-
-    el.addEventListener('mouseleave', () => {
-      isDragging = false;
     });
 
     el.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    el.addEventListener('mouseleave', () => {
       isDragging = false;
     });
 
@@ -152,5 +156,28 @@ function setupScrollBoxes() {
       const walk = (x - startX) * 1.5;
       el.scrollLeft = scrollLeft - walk;
     });
+
+    // ----- Touch Events -----
+    el.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startX = e.touches[0].pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+    });
+
+    el.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    el.addEventListener('touchcancel', () => {
+      isDragging = false;
+    });
+
+    el.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault(); // Important: disable vertical page scroll
+      const x = e.touches[0].pageX - el.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      el.scrollLeft = scrollLeft - walk;
+    }, { passive: false });
   });
 }
