@@ -65,12 +65,13 @@ a {
 	font-size: 160%;
 	font-weight: bold;
 }
+/*
 .scrollingWindow
 {
     width:1530px;
     overflow-x: auto;
     white-space: nowrap;
-}
+}*/
 h1
 {
 	text-align:left;
@@ -109,4 +110,21 @@ input{
 }
 #find{
 	font-size: 19px; 
+}
+
+img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  pointer-events: auto;
+}
+.scrollingWindow {
+  display: flex;
+  overflow: hidden;
+  cursor: grab;
+  width: 100%;
+}
+.scrollingWindow img {
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
 }

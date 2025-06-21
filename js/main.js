@@ -79,8 +79,8 @@ function renderPage()
 					<td width="2"></td>
 					<td>
 						<div class="textColumn">
-							<!--<h1 onclick="javascript:play(this.parentElement.previousElementSibling.previousElementSibling  ,`+articleNum+`)">`+title+`</h1>-->
-							<h1>`+title+`</h1>
+							<h1 onclick="play(this.closest('tr').querySelector('.shadowElement'), `+articleNum+`)">`+title+`</h1>
+							<!--<h1>`+title+`</h1>-->
 							<b>`+date+`</b><br><br>
 							`+text+`
 						</div>
@@ -94,7 +94,7 @@ function renderPage()
 			a+=`<br>
 			<div class="scrollingWindow">`;
 			for(var i = 1; i <= images.split("-")[1] ;i++)
-				a += `<img width="200" height="200" src="i/`+images.split("-")[0]+`-`+i+`.jpg"/>`;
+				a += `<img src="i/`+images.split("-")[0]+`-`+i+`.jpg"/>`;
 			a+=`</div>
 				<br><br>`;
 		}
@@ -110,6 +110,7 @@ function renderPage()
 		b+=`<div style="float: right;"><a href="?page=`+(pageNum+1)+`">next&nbsp;</a></div>`;
 	b+=`</div>`;
 	document.getElementById("content").innerHTML +=  b;
+	setupScrollBoxes();
 }
 function checkImage(event,aN)
 {
